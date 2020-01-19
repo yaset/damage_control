@@ -2,7 +2,6 @@
 rm(list = ls())
 library(readxl)
 library(tidyverse)
-library(vignettes)
 library(hablar)
 dcs <- read_excel("data/last_version.xlsx")
 
@@ -206,3 +205,239 @@ for(i in 76:84){
   dcs[i] <- as.factor(dcs[[i]])
 }
 
+
+####Management of abdominal wall
+dcs <- dcs %>%
+  rename(abdomwall_demanda = PERIT084,
+         abdomwall_demanda_primary_fascia = PERIT085,
+         abdomwall_demanda_primary_skin = PERIT086,
+         abdomwall_planeado = PERIT087,
+         abdomwall_planeado_bogotabag = PERIT088,
+         abdomwall_planeado_mesh = PERIT089,
+         abdomwall_planeado_vacuumpak = PERIT090,
+         abdomwall_planeado_VAC = PERIT091,
+         abdomwall_planeado_VAC_volume = PERIT092,
+         abdomwall_planeado_VAC_days = PERIT093)
+
+for(i in 85:92){
+  dcs[i] <- as.factor(dcs[[i]])
+}
+
+dcs$abdomwall_planeado_VAC_days <- as.numeric(dcs$abdomwall_planeado_VAC_days)
+dcs$abdomwall_planeado_VAC_volume <- as.numeric(dcs$abdomwall_planeado_VAC_volume)
+
+
+##### Complications of planed method
+
+dcs <- dcs %>%
+  rename(abdomwall_planeado_compli = PERIT094,
+         abdomwall_planeado_compli_fistula = PERIT095,
+         abdomwall_planeado_compli_evisceration = PERIT097,
+         abdomwall_planeado_compli_haemorrhage = PERIT098,
+         abdomwall_planeado_compli_infx = PERIT099,
+         abdomwall_planeado_compli_walldamage = PERIT100)
+
+for(i in 95:101){
+  dcs[i] <- as.factor(dcs[[i]])
+}
+
+###### Posterior to planed method 
+
+dcs <- dcs %>%
+  rename(abdomwall_planeado_post_fasciaclosure = PERIT103,
+         abdomwall_planeado_post_onlyclosure = PERIT105,
+         abdomwall_planeado_post_graft = PERIT107,
+         abdomwall_planeado_post_granulation = PERIT109)
+
+for(i in 104:110){
+  dcs[i] <- as.factor(dcs[[i]])
+}
+
+
+###### UCI
+
+dcs <- dcs %>%
+  rename(uci_admision_date = PERIT111,
+         uci_admision_date_hour = PERIT112,
+         initial_apache = PERIT113,
+         initial_ati = PERIT114,
+         initial_iss = PERIT115,
+         initial_mods = PERIT116,
+         initial_sofa = PERIT117,
+         initial_svo2 = PERIT118,
+         initial_lactate = PERIT119,
+         six_pia = PERIT120,
+         twelve_pia = PERIT121,
+         twelve_svo2 = PERIT122,
+         twelve_lactate = PERIT123,
+         tfour_pia = PERIT124,
+         tfour_svo2 = PERIT125,
+         tfour_lactate = PERIT126,
+         tfour_waterbalance = PERIT127,
+         feight_pia = PERIT128,
+         nseix_pia = PERIT129)
+
+dcs$uci_admision_date <- as.Date(dcs$uci_admision_date)
+
+for(i in 114:130){
+  dcs[i] <- as.numeric(dcs[[i]])
+}
+
+##### Microbiology
+
+dcs <- dcs %>%
+  rename(hemoculture = PERIT130,
+         hemoculture_date = PERIT131,
+         hemoculture_pos_number = PERIT132,
+         hemoculture_pos_1 = PERIT133,
+         hemoculture_pos_2 = PERIT134)
+
+dcs$hemoculture <- as.factor(dcs$hemoculture)
+dcs$hemoculture_date <- as.Date(dcs$hemoculture_date)
+dcs$hemoculture_pos_number <- as.numeric(dcs$hemoculture_pos_number)
+
+for(i in 134:135){
+  dcs[i] <- as.factor(dcs[[i]])
+}
+
+dcs <- dcs %>%
+  rename(culture_laparatomy = PERIT137,
+         culture_laparatomy_date = PERIT138,
+         culture_laparatomy_pos_number = PERIT139,
+         culture_laparatomy_pos_1 = PERIT140,
+         culture_laparatomy_pos_2 = PERIT141)
+
+dcs$culture_laparatomy <- as.factor(dcs$culture_laparatomy)
+dcs$culture_laparatomy_date <- as.Date(dcs$culture_laparatomy_date)
+dcs$culture_laparatomy_pos_number <- as.numeric(dcs$culture_laparatomy_pos_number)
+
+for(i in 141:142){
+  dcs[i] <- as.factor(dcs[[i]])
+}
+
+#### Previous antibiotics
+
+dcs <- dcs %>%
+  rename(antibiotic_previous = PERIT151,
+         antibiotic_previous_date = PERIT152,
+         antibiotic_previous_pos_number = PERIT153,
+         antibiotic_previous_pos_1 = PERIT154,
+         antibiotic_previous_pos_2 = PERIT155,
+         antibiotic_previous_pos_3 = PERIT156)
+
+dcs$antibiotic_previous <- as.factor(dcs$antibiotic_previous)
+dcs$antibiotic_previous_date <- as.Date(dcs$antibiotic_previous_date)
+dcs$antibiotic_previous_pos_number <- as.numeric(dcs$antibiotic_previous_pos_number)
+
+for(i in 154:156){
+  dcs[i] <- as.factor(dcs[[i]])
+}
+
+##### antibiotic UCI
+
+dcs <- dcs %>%
+  rename(antibiotic_uci_empiric = PERIT159,
+         antibiotic_uci_empiric_date = PERIT160,
+         antibiotic_uci_empiric_pos_number = PERIT161,
+         antibiotic_uci_empiric_pos_1 = PERIT162,
+         antibiotic_uci_empiric_pos_2 = PERIT163)
+
+dcs$antibiotic_uci_empiric <- as.factor(dcs$antibiotic_uci_empiric)
+dcs$antibiotic_uci_empiric_date <- as.Date(dcs$antibiotic_uci_empiric_date )
+dcs$antibiotic_uci_empiric_pos_number <- as.numeric(dcs$antibiotic_uci_empiric_pos_number)
+
+for(i in 163:164){
+  dcs[i] <- as.factor(dcs[[i]])
+}
+
+### antibiotic UCI according to cultures
+
+dcs <- dcs %>%
+  rename(antibiotic_culture = PERIT164,
+         antibiotic_culture_date = PERIT165,
+         antibiotic_culture_pos_number = PERIT166,
+         antibiotic_culture_pos_1 = PERIT167,
+         antibiotic_culture_pos_2 = PERIT168)
+
+dcs$antibiotic_culture <- as.factor(dcs$antibiotic_culture)
+dcs$antibiotic_culture_date <- as.Date(dcs$antibiotic_culture_date)
+dcs$antibiotic_culture_pos_number <- as.numeric(dcs$antibiotic_culture_pos_number)
+for(i in 168:169){
+  dcs[i] <- as.factor(dcs[[i]])
+}
+
+#### Management
+
+dcs <- dcs %>%
+  rename(nutrition_support = PERIT170,
+         nutrition_support_enteral = PERIT171,
+         nutrition_support_enteral_days = PERIT172,
+         nutrition_support_parenteral = PERIT173,
+         nutrition_support_parenteral_days = PERIT174,
+         ventilation = PERIT175,
+         ventilation_days = PERIT176,
+         tracheotomy = PERIT177,
+         tracheotomy_days_ventilation = PERIT178)
+
+for(i in c(171,172,174,176,178)){
+  dcs[i] <- as.factor(dcs[[i]])
+}
+for(i in c(173,175,177,179)){
+  dcs[i] <- as.numeric(dcs[[i]])
+}
+
+
+###### hospital discharge
+
+dcs <- dcs %>%
+  rename(hos_out_date = PERIT179,
+         hos_out_state = PERIT180,
+         hos_out_readmission_UCI = PERIT181,
+         hos_out_readmission_UCI_date = PERIT182,
+         hos_out_reqx = PERIT183,
+         hos_out_reqx_date = PERIT184,
+         hos_out_reqx_peritonitis = PERIT185,
+         hos_out_reqx_abscess = PERIT186,
+         hos_out_reqx_haemorrhage = PERIT187,
+         hos_out_reqx_obstruction = PERIT188,
+         hos_out_reqx_evisceration = PERIT189)
+
+for(i in c(180,183,185)){
+  dcs[i] <- as.Date(dcs[[i]])
+}
+
+for(i in c(181,182,184,186:190)){
+  dcs[i] <- as.factor(dcs[[i]])
+}
+
+
+
+#Lenght_hospital
+dcs$hos_out_date <- as.Date(dcs$hos_out_date)
+
+dcs$lenght_hospital_days <- dcs$hos_out_date - dcs$admission_date
+dcs$lenght_hospital_days <- as.numeric(dcs$lenght_hospital_days)
+
+
+
+###### Transfusion de hemocomponentes
+dcs <- dcs %>%
+  rename(blood_transfusion = PERIT192,
+         blood_transfusion_Red = PERIT193,
+         blood_transfusion_URB = PERIT194,
+         blood_transfusion_platelet = PERIT195,
+         blood_transfusion_UPB = PERIT196,
+         blood_transfusion_FFP = PERIT197,
+         blood_transfusion_UFFP = PERIT198,
+         blood_transfusion_cryoprecipitade = PERIT199,
+         blood_transfusion_Ucryoprecipitade = PERIT200)
+for(i in c(193,194,196,198,200)){
+  dcs[i] <- as.factor(dcs[[i]])
+}
+
+for(i in c(195,197,199,201)){
+  dcs[i] <- as.numeric(dcs[[i]])
+}
+
+dcs <- dcs %>%
+  rename(inotropic = PERIT201)
