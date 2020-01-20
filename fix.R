@@ -3,6 +3,7 @@ rm(list = ls())
 library(readxl)
 library(tidyverse)
 library(hablar)
+library(xlsx)
 dcs <- read_excel("data/last_version.xlsx")
 
 
@@ -441,3 +442,5 @@ for(i in c(195,197,199,201)){
 
 dcs <- dcs %>%
   rename(inotropic = PERIT201)
+
+
