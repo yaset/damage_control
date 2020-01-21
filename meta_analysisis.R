@@ -6,16 +6,21 @@ library(metafor)
 library(meta)
 library(tidyverse)
 library(dmetar)
+library(cowplot)
+
+data <- read_excel("C:/Users/eyase/Dropbox/Damage_Control_Abdominal/systematic review/Extracted information/extract-diverticulitis.xlsx", 
+                   sheet = "DCS only")
+
 
 data <- diverticuliti
 data <- data %>%
   mutate(study_id = 1:length(Reference))
 
-data$morta_anasto <- data$Mortality.in.anastomisis.group
-data$morta_ostomy <- data$Mortality.in.ostomy.group
-data$ostomies <- data$Number.of.ostomy
-data$anastomies <- data$Number.of.anastomosis
-data$n_patients <- data$Number.of.patients.DCS
+data$morta_anasto <- data$`Mortality in anastomisis group`
+data$morta_ostomy <- data$`Mortality in colostomy group`
+data$ostomies <- data$`Number of colostomy`
+data$anastomies <- data$`Number of anastomosis`
+data$n_patients <- data$`Number of patients`
 
 data$morta_anasto <- as.numeric(data$morta_anasto)
 data$morta_ostomy <- as.numeric(data$morta_anasto)
@@ -25,7 +30,7 @@ dat2 <- cbind(data$morta_anasto, data$morta_ostomy,
 
 
 dat3 <- data %>%
-  select(Reference,morta_anasto, anastomies, morta_ostomy,ostomies, n_patients, Number.of.patients)
+  select(Reference,morta_anasto, anastomies, morta_ostomy,ostomies, n_patients)
 View(dat3)
 
 m.bin <- metabin(event.e = morta_ostomy,
@@ -85,9 +90,12 @@ prop2 <- metaprop(event = anastomies,
                   sm = "PLOGIT"
 )
 
+p1 <- forest(prop2)
 
-forest(prop1) #ostomies
-forest(prop2) #anastomosis
+
+par(mfrow = c(2,1))
+forest(prop2)
+forest(prop1)
 
 data$morta_anasto <- as.numeric(data$morta_anasto)
 
@@ -119,5 +127,5 @@ funnel(prop2, studlab = TRUE,
 
 png(filename = "number_anastomosis.png",
     width = 750, height = 500)
-forest(prop2)
+forest(prop4)
 dev.off()
